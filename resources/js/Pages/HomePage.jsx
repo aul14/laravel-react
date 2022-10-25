@@ -10,7 +10,7 @@ const HomePage = (props) => {
     return(
         <div className="min-h-screen bg-slate-50">
             <Head title={props.title} />
-            <Navbar />
+            <Navbar user={props.auth.user} />
                 <div className="flex justify-center flex-col lg:flex-row lg:flex-wrap lg:items-stretch items-center gap-3">
                     <NewsList news={props.news.data} />
                 </div>

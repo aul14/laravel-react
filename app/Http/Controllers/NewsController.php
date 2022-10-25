@@ -43,7 +43,17 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'title'     => 'required',
+            'description'     => 'required',
+            'category'     => 'required',
+        ]);
+
+        $validateData['author'] = auth()->user()->email;
+
+        News::create($validateData);
+
+        return redirect()->back()->with('message', 'New save succesfully');
     }
 
     /**

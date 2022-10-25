@@ -1,4 +1,6 @@
+import { Link } from "@inertiajs/inertia-react";
 import React from "react";
+// import route from "vendor/tightenco/ziggy/src/js";
 
 const Navbar = (props) => {
     return (
@@ -17,14 +19,23 @@ const Navbar = (props) => {
               </div>
             </label>
             <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-              <li>
-                <a className="justify-between">
-                  Profile
+              {!props.user ? 
+              <div>
+                <li><Link href={route('login')} as="button">Login</Link></li>
+                <li><Link href={route('register')} as="button">Register</Link></li>
+              </div>
+              : 
+             <div>
+               <li>
+                <Link href={route('dashboard')} as="button" className="justify-between">
+                  Dashboard
                   <span className="badge">New</span>
-                </a>
+                </Link>
               </li>
-              <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
+              <li><Link>Settings</Link></li>
+              <li><Link href={route('logout')} method="post" as="button">Logout</Link></li>
+             </div>
+              }
             </ul>
           </div>
         </div>
