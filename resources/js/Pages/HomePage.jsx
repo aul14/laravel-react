@@ -1,24 +1,21 @@
-import React from "react";
+import React, {Fragment} from "react";
 import { Link, Head } from '@inertiajs/inertia-react';
+import Navbar from "@/Components/Navbar";
+import NewsList from "@/Components/Homepage/Newslist";
+import Paginator from "@/Components/Homepage/Paginator";
+
+
 
 const HomePage = (props) => {
-  
     return(
-        <div className="flex justify-center items-center min-h-screen bg-slade-50">
+        <div className="min-h-screen bg-slate-50">
             <Head title={props.title} />
-                <div className="">
-                    {
-                        props.news ? props.news.map((data, i) => {
-                            return (
-                                <div key={i} className="p-4 m-2 bg-white text-black shadow-md border rounded-sm">
-                                    <p className="text-2xl">{data.title}</p>
-                                    <p>{data.description}</p>
-                                    <p className="text-sm">{data.category}</p>
-                                    <p className="text-sm">{data.author}</p>
-                                </div>
-                            )
-                        }) : <p>Data belum tersedia!</p>
-                    }
+            <Navbar />
+                <div className="flex justify-center flex-col lg:flex-row lg:flex-wrap lg:items-stretch items-center gap-3">
+                    <NewsList news={props.news.data} />
+                </div>
+                <div className="flex justify-center items-center mt-4">
+                    <Paginator meta={props.news.meta}  />
                 </div>
         </div>
     )
