@@ -25,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/news', [NewsController::class, 'show']);
     Route::get('/news/edit', [NewsController::class, 'edit'])->name('edit.news');
     Route::put('/news/update', [NewsController::class, 'update'])->name('update.news');
+    Route::delete('/news/delete', [NewsController::class, 'destroy'])->name('delete.news');
 });
 
 

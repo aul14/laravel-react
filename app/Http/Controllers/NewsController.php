@@ -112,8 +112,9 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy(News $news)
+    public function destroy(News $news, Request $request)
     {
-        //
+        $news->where('id', $request->id)->delete();
+        return redirect()->back()->with('message', 'New saved succesfully');
     }
 }

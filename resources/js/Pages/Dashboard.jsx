@@ -89,7 +89,7 @@ class Dashboard extends React.Component {
                                     </Link>
                                 </div>
                                 <div className="badge badge-outline">
-                                    <Link>
+                                    <Link href={route('delete.news')} as="button" method='delete' data={{ id: data.id }}>
                                         delete
                                     </Link>
                                 </div>
