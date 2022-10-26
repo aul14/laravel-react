@@ -1,6 +1,6 @@
 import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/inertia-react';
+import { Head, Link } from '@inertiajs/inertia-react';
 import { Inertia } from '@inertiajs/inertia';
 
 class Dashboard extends React.Component {
@@ -15,6 +15,13 @@ class Dashboard extends React.Component {
             category: '',
         },
         isNotif: false
+    }
+
+    componentDidMount () {
+        if (!this.props.myNews) {
+            Inertia.get('/news')
+        }
+        return;
     }
 
     handleFormChange = (event) => {
@@ -63,6 +70,35 @@ class Dashboard extends React.Component {
                         <input type="text" value={this.state.formNews.category} onChange={this.handleFormChange} name="category" placeholder="Category" className="input input-bordered w-full m-2" />
                         <button className='btn btn-primary m-2' onClick={this.handleSubmit}>Submit</button>
                     </div>
+                </div>
+                <div className="p-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    {this.props.myNews && this.props.myNews.length > 0 ? this.props.myNews.map((data, i) => {
+                        return (
+                        <div key={i} className="card w-full bg-base-100 shadow-xl m-2">
+                            <div className="card-body">
+                                <h2 className="card-title">
+                                    {data.title}
+                                <div className="badge badge-secondary">NEW</div>
+                                </h2>
+                                <p>{data.description}</p>
+                                <div className="card-actions justify-end">
+                                <div className="badge badge-inline">{data.category}</div> 
+                                <div className="badge badge-outline">
+                                    <Link href={route('edit.news')} as="button" data={{ id: data.id }}>
+                                        edit
+                                    </Link>
+                                </div>
+                                <div className="badge badge-outline">
+                                    <Link>
+                                        delete
+                                    </Link>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        )
+                    }) : "DATA NOT FOUND!"}
+                   
                 </div>
             </div>
         </AuthenticatedLayout>

@@ -17,8 +17,15 @@ use Inertia\Inertia;
 */
 
 
+
+
 Route::get('/', [NewsController::class, 'index']);
-Route::post('/news', [NewsController::class, 'store']);
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/news', [NewsController::class, 'store']);
+    Route::get('/news', [NewsController::class, 'show']);
+    Route::get('/news/edit', [NewsController::class, 'edit'])->name('edit.news');
+    Route::put('/news/update', [NewsController::class, 'update'])->name('update.news');
+});
 
 
 Route::get('/dashboard', function () {

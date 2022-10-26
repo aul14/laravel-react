@@ -16,7 +16,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = new NewsCollection(News::paginate(10));
+        $news = new NewsCollection(News::orderByDesc('id')->paginate(10));
 
         return Inertia::render('HomePage', [
             'title'          => 'Cuy News',
@@ -53,7 +53,7 @@ class NewsController extends Controller
 
         News::create($validateData);
 
-        return redirect()->back()->with('message', 'New save succesfully');
+        return redirect()->back()->with('message', 'New saved succesfully');
     }
 
     /**
@@ -64,7 +64,11 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
-        //
+        $myNews = $news->where('author', auth()->user()->email)->orderByDesc('id')->get();
+        return Inertia::render('Dashboard', [
+            'title'          => 'Cuy News',
+            'myNews'           => $myNews
+        ]);
     }
 
     /**
@@ -73,9 +77,11 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function edit(News $news)
+    public function edit(News $news, Request $request)
     {
-        //
+        return Inertia::render('EditNews', [
+            'myNews'    => $news->find($request->id)
+        ]);
     }
 
     /**
@@ -87,7 +93,17 @@ class NewsController extends Controller
      */
     public function update(Request $request, News $news)
     {
-        //
+        $validateData = $request->validate([
+            'title'     => 'required',
+            'description'     => 'required',
+            'category'     => 'required',
+        ]);
+
+        $validateData['author'] = auth()->user()->email;
+
+        News::where('id', $request->id)->update($validateData);
+
+        return to_route('dashboard')->with('message', 'New updated succesfully');
     }
 
     /**
